@@ -74,6 +74,114 @@ app.post("/books",(req,res)=>{
 })
 
 
+//  الكود الي تحت محاضرة رقم 7 مطلوب فيها تاسك
+
+
+app.get("/books", (req, res) => {
+
+    res.json(books)
+})
+
+
+// please do the logic to get a certain book by the id 
+
+app.put("/books/:id",(req, res)=>{
+
+    const bookID = parseInt(req.params.id,10)
+
+    const bookIndex = books.findIndex((book)=>book.id===bookID)
+
+    if(bookIndex===-1){
+        return res.status(400).json({error:"sorry book not found unable to update the book "})
+    }
+
+    const {name,title}=req.body
+
+    if(name) books[bookIndex].name=name
+    if(title) books[bookIndex].title=title
+
+    res.status(200).json({message:"book has been updated",book:books[bookIndex]})
+    
+
+})
+
+app.delete("/books/:id",(req, res)=>{
+
+    const bookID = parseInt(req.params.id,10)
+
+    const bookIndex = books.findIndex((book)=>book.id===bookID)
+
+    if(bookIndex===-1){
+        return res.status(400).json({error:"sorry book not found unable to delete the book "})
+    }
+
+    books.splice(bookIndex,1)
+
+    return res.status(200).json({message :"book has been removed "})
+
+})
+
+
+app.patch("/books/:id/translation",(req,res)=>{
+const bookID = parseInt(req.params.id,10)
+
+const {language}= req.body
+
+if(!language ||typeof language !=="string"){
+    return res.status(400).json({error: "sorry invalid or missing language"})
+}
+
+const book = books.find((b)=>b.id===bookID)
+
+if(!book) return res.status(404).json({error:"sorry the book number is not found "})
+
+
+// please do the logic to get a certain book by the id 
+
+
+// app.get("/books/:id", (req, res) => {
+//     const bookID = parseInt(req.params.id, 10);
+//     const bookIndex = books.findIndex((book) => book.id === bookID);
+  
+//     if (bookIndex === -1) {
+//       return res.status(404).json({ error: "Book not found" });
+//     }
+  
+//     const book = books[bookIndex];
+//     res.json(book);
+//   });
+
+
+
+
+
+
+
+    // please complete the logic to update the lanaguge of translation 
+})
+
+
+// app.put("/books/:id", (req, res) => {
+//     const bookID = parseInt(req.params.id, 10);
+//     const bookIndex = books.findIndex((book) => book.id === bookID);
+  
+//     if (bookIndex === -1) {
+//       return res.status(404).json({ error: "Book not found" });
+//     }
+  
+//     const { newLanguage } = req.body;
+  
+//     if (!newLanguage) {
+//       return res.status(400).json({ error: "New language is required" });
+//     }
+  
+//     books[bookIndex].language = newLanguage;
+  
+//     res.status(200).json({ message: "Language updated successfully", book: books[bookIndex] });
+//   });
+  
+
+ 
 
 
 const port = 3001 ; 
